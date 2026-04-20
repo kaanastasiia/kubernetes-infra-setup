@@ -6,7 +6,7 @@ metadata:
 spec:
   description: AppProject for rook-ceph setup
   sourceRepos:
-  - 'https://gitlab.com/web-application7544611/kubernetes-infra-setup'
+  - 'https://github.com/kaanastasiia/kubernetes-infra-setup.git'
   - 'https://charts.rook.io/release'
   destinations:
   - namespace: rook-ceph
