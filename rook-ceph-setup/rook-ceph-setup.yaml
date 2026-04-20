@@ -14,7 +14,7 @@ spec:
     helm:
       releaseName: rook-ceph
       valueFiles:
-      - rook-ceph.values.yaml
+      - rook-ceph-values.yaml
   destination:
     server: "https://kubernetes.default.svc"
     namespace: rook-ceph
