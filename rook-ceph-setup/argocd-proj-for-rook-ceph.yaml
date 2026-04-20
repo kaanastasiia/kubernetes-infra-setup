@@ -1,0 +1,13 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: rook-ceph-app-proj
+  namespace: argocd
+spec:
+  description: AppProject for rook-ceph setup
+  sourceRepos:
+  - 'https://gitlab.com/web-application7544611/kubernetes-infra-setup'
+  - 'https://charts.rook.io/release'
+  destinations:
+  - namespace: rook-ceph
+    server: https://kubernetes.default.svc

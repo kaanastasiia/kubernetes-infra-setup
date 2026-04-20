@@ -1,0 +1,112 @@
+image:
+  repository: docker.io/rook/ceph
+  tag: v1.19.4
+  pullPolicy: IfNotPresent
+
+crds:
+  # -- Whether the helm chart should create and update the CRDs. If false, the CRDs must be
+  # managed independently with deploy/examples/crds.yaml.
+  # **WARNING** Only set during first deployment. If later disabled the cluster may be DESTROYED.
+  # If the CRDs are deleted in this case, see
+  # [the disaster recovery guide](https://rook.io/docs/rook/latest/Troubleshooting/disaster-recovery/#restoring-crds-after-deletion)
+  # to restore them.
+  enabled: true
+
+# -- Pod resource requests & limits
+resources:
+  limits:
+    memory: 2048Mi
+  requests:
+    cpu: 500m
+    memory: 512Mi
+
+
+# -- Delay to use for the `node.kubernetes.io/unreachable` pod failure toleration to override
+# the Kubernetes default of 5 minutes
+unreachableNodeTolerationSeconds: 5
+
+# -- Whether the operator should watch cluster CRD in its own namespace or not
+currentNamespaceOnly: false
+
+# -- Number of clusters the operator reconciles concurrently
+reconcileConcurrentClusters: 1
+
+# -- Global log level for the operator.
+# Options: `ERROR`, `WARNING`, `INFO`, `DEBUG`
+logLevel: INFO
+
+# -- If true, create & use RBAC resources
+rbacEnable: true
+
+rbacAggregate:
+  # -- If true, create a ClusterRole aggregated to [user facing roles](https://kubernetes.io/docs/reference/access-authn-authz/rbac/#user-facing-roles) for objectbucketclaims
+  enableOBCs: false
+
+# -- Set the priority class for the rook operator deployment if desired
+priorityClassName: system-cluster-critical
+
+# -- Set the container security context for the operator
+containerSecurityContext:
+  runAsNonRoot: true
+  runAsUser: 2016
+  runAsGroup: 2016
+  capabilities:
+    drop: ["ALL"]
+
+  # -- PriorityClassName to be set on csi driver plugin pods
+  pluginPriorityClassName: system-node-critical
+
+  # -- PriorityClassName to be set on csi driver provisioner pods
+  provisionerPriorityClassName: system-cluster-critical
+
+  # -- Set replicas for csi provisioner deployment
+  provisionerReplicas: 3
+  
+  # -- Set logging level for cephCSI containers maintained by the cephCSI.
+  # Supported values from 0 to 5. 0 for general useful logs, 5 for trace level verbosity.
+  logLevel: 0
+
+  # -- Set logging level for Kubernetes-csi sidecar containers.
+  # Supported values from 0 to 5. 0 for general useful logs (the default), 5 for trace level verbosity.
+  # @default -- `0`
+  sidecarLogLevel: 0
+
+  cephcsi:
+    # -- Ceph CSI image repository
+    repository: quay.io/cephcsi/cephcsi
+    # -- Ceph CSI image tag
+    tag: v3.16.2
+
+  registrar:
+    # -- Kubernetes CSI registrar image repository
+    repository: registry.k8s.io/sig-storage/csi-node-driver-registrar
+    # -- Registrar image tag
+    tag: v2.16.0
+
+  provisioner:
+    # -- Kubernetes CSI provisioner image repository
+    repository: registry.k8s.io/sig-storage/csi-provisioner
+    # -- Provisioner image tag
+    tag: v6.1.1
+
+  snapshotter:
+    # -- Kubernetes CSI snapshotter image repository
+    repository: registry.k8s.io/sig-storage/csi-snapshotter
+    # -- Snapshotter image tag
+    tag: v8.5.0
+
+  attacher:
+    # -- Kubernetes CSI Attacher image repository
+    repository: registry.k8s.io/sig-storage/csi-attacher
+    # -- Attacher image tag
+    tag: v4.11.0
+
+  resizer:
+    # -- Kubernetes CSI resizer image repository
+    repository: registry.k8s.io/sig-storage/csi-resizer
+    # -- Resizer image tag
+    tag: v2.1.0
+
+  crossNamespaceVolumeDataSource:
+    # -- Enable cross namespace volume data source provisioning
+    enabled: false
