@@ -53,6 +53,7 @@ containerSecurityContext:
   capabilities:
     drop: ["ALL"]
 
+csi:
   # -- PriorityClassName to be set on csi driver plugin pods
   pluginPriorityClassName: system-node-critical
 
