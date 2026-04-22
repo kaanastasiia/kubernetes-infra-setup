@@ -11,3 +11,15 @@ spec:
   destinations:
   - namespace: rook-ceph
     server: https://kubernetes.default.svc
+  clusterResourceWhitelist:
+  - group: ''
+    kind: Namespace
+    name: rook-ceph
+  - group: 'rbac.authorization.k8s.io'
+    kind: 'ClusterRole'
+  - group: 'rbac.authorization.k8s.io'
+    kind: 'ClusterRoleBinding'
+  - group: 'apiextensions.k8s.io'
+    kind: 'CustomResourceDefinition'
+  - group: 'storage.k8s.io'
+    kind: 'StorageClass'
